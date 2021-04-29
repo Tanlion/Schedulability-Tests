@@ -26,4 +26,6 @@ G-EPPF (global earliest-priority-point-first) scheduling include a basic bound a
 | y_{i,j}   | Absolute priority point: y_{i,j} = r_{i,j} + Y_i  |
 
 
-
+### How to run?
+Just run "writeFile.py" with you custom system parameters.
+Need to comment the tests you dont need, and their relative variables. 
