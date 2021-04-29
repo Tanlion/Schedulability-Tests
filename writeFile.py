@@ -31,9 +31,6 @@ def write_file(read_filename, m):
     """
     :param filename:
     :return: get the schedulable ratio of a file.
-    total_u: 1 - 10
-    strip() 移除字符串头尾指定的字符（默认为空格）或字符序列。lstrip() rstrip()
-    split() 通过指定分隔符对字符串进行切片，如果第二个参数 num 有指定值，则分割为 num+1 个子字符串。
     """
     file = open(read_filename, 'r')
     max_line = len(file.readlines())
@@ -86,26 +83,26 @@ def write_file(read_filename, m):
             task_set = Task.list_to_obj(task_set)  # convert to Task object
             print("-" * 20 + "Task Set {0} - line {1} to {2}: \n{3}".format(j + 1, set_start_line, set_end_line, task_set))
 
-            # is_dens = ScheduleTest.density_test(task_set, m)
-            # is_load = ScheduleTest.load_test(task_set, m)
+            is_dens = ScheduleTest.density_test(task_set, m)
+            is_load = ScheduleTest.load_test(task_set, m)
             is_fpbasic = ScheduleTest.fpbasic_test(task_set, m)
             is_fpimprv = ScheduleTest.fpimprv_test(task_set, m)
             is_npbasic = ScheduleTest.npbasic_test(task_set, m)
             is_npimprv = ScheduleTest.npimprv_test(task_set, m)
 
-            # print("Density Test: {}".format(is_dens))
-            # print("Load Test: {}".format(is_load))
+            print("Density Test: {}".format(is_dens))
+            print("Load Test: {}".format(is_load))
             print("Fpbasic Test: {}".format(is_fpbasic))
             print("Fpimprv Test: {}".format(is_fpimprv))
             print("Npbasic Test: {}".format(is_npbasic))
             print("Npimprv Test: {}".format(is_npimprv))
             print("\n")
 
-            # if is_dens == True:
-            #     cnt_dens_test += 1
-            #
-            # if is_load == True:
-            #     cnt_load_test += 1
+            if is_dens == True:
+                cnt_dens_test += 1
+            
+            if is_load == True:
+                cnt_load_test += 1
 
             if is_fpbasic == True:
                 cnt_fpbasic_test += 1
@@ -124,22 +121,22 @@ def write_file(read_filename, m):
             set_end_line = set_start_line + ntasks
             j += 1
 
-        # dens_ratio = round(cnt_dens_test * 100 / nsets, 2)
-        # load_ratio = round(cnt_load_test * 100 / nsets, 2)
+        dens_ratio = round(cnt_dens_test * 100 / nsets, 2)
+        load_ratio = round(cnt_load_test * 100 / nsets, 2)
         fpbasic_ratio = round(cnt_fpbasic_test * 100 / nsets, 2)
         fpimprv_ratio = round(cnt_fpimprv_test * 100 / nsets, 2)
         npbasic_ratio = round(cnt_npbasic_test * 100 / nsets, 2)
         npimprv_ratio = round(cnt_npimprv_test * 100 / nsets, 2)
 
-        # dens_ratio_list.append(dens_ratio)
-        # load_ratio_list.append(load_ratio)
+        dens_ratio_list.append(dens_ratio)
+        load_ratio_list.append(load_ratio)
         fpbasic_ratio_list.append(fpbasic_ratio)
         fpimprv_ratio_list.append(fpimprv_ratio)
         npbasic_ratio_list.append(npbasic_ratio)
         npimprv_ratio_list.append(npimprv_ratio)
 
-        # print("Denst cnt: {} / {}, ratio {}".format(cnt_dens_test, nsets, dens_ratio))
-        # print("Load cnt: {} / {}, ratio {}".format(cnt_load_test, nsets, load_ratio))
+        print("Denst cnt: {} / {}, ratio {}".format(cnt_dens_test, nsets, dens_ratio))
+        print("Load cnt: {} / {}, ratio {}".format(cnt_load_test, nsets, load_ratio))
         print("Fpbasic cnt: {} / {}, ratio {}".format(cnt_fpbasic_test, nsets, fpbasic_ratio))
         print("Fpimprv cnt: {} / {}, ratio {}".format(cnt_fpimprv_test, nsets, fpimprv_ratio))
         print("Npbasic cnt: {} / {}, ratio {}".format(cnt_npbasic_test, nsets, npbasic_ratio))
@@ -149,33 +146,33 @@ def write_file(read_filename, m):
         u_end_line = u_start_line + u_block
     file.close()
 
-    ### FP VS density and load
-    # new_file = open("./output/Ratio_{}".format(filename.lstrip('./output/Task_data')), "w")
-    # new_file.writelines("Util\t dens\t load\t fpbasic\t fpimprv\n")
-    # for i in range (len(u_list)):
-    #     new_file.writelines("{0}\t {1}\t {2}\t {3}\t {4}\n".format\
-    #                         (u_list[i], dens_ratio_list[i], load_ratio_list[i],\
-    #                          fpbasic_ratio_list[i], fpimprv_ratio_list[i]))
-    #
-    #     print("Utilization: {0}, dens_ratio: {1}, load_ratio: {2}, fpbasic_ratio: {3}, fpimprv_ratio: {4}"\
-    #           .format(u_list[i], dens_ratio_list[i], load_ratio_list[i], fpbasic_ratio_list[i], fpimprv_ratio_list[i]))
-    #     i += 1
-    #
-    # new_file.close()
-
-    ### FP VS NP
-    new_file = open("./output/Ratio_FpNp_{}".format(filename.lstrip('./output/Task_data')), "w")
-    new_file.writelines("Util\t fpbasic\t fpimprv\t npbasic\t npimprv\n")
+    ## FP VS density and load
+    new_file = open("./output/Ratio_{}".format(filename.lstrip('./output/Task_data')), "w")
+    new_file.writelines("Util\t dens\t load\t fpbasic\t fpimprv\n")
     for i in range (len(u_list)):
         new_file.writelines("{0}\t {1}\t {2}\t {3}\t {4}\n".format\
-                            (u_list[i], fpbasic_ratio_list[i], fpimprv_ratio_list[i],\
-                            npbasic_ratio_list[i], npimprv_ratio_list[i]))
-
-        print("Utilization: {0},  fpbasic_ratio: {1}, fpimprv_ratio: {2}, npbasic_ratio: {3}, npimprv_ratio: {4}"\
-              .format(u_list[i], fpbasic_ratio_list[i], fpimprv_ratio_list[i], npbasic_ratio_list[i], npimprv_ratio_list[i]))
+                            (u_list[i], dens_ratio_list[i], load_ratio_list[i],\
+                             fpbasic_ratio_list[i], fpimprv_ratio_list[i]))
+    
+        print("Utilization: {0}, dens_ratio: {1}, load_ratio: {2}, fpbasic_ratio: {3}, fpimprv_ratio: {4}"\
+              .format(u_list[i], dens_ratio_list[i], load_ratio_list[i], fpbasic_ratio_list[i], fpimprv_ratio_list[i]))
         i += 1
-
+    
     new_file.close()
+
+    ### FP VS NP
+#     new_file = open("./output/Ratio_FpNp_{}".format(filename.lstrip('./output/Task_data')), "w")
+#     new_file.writelines("Util\t fpbasic\t fpimprv\t npbasic\t npimprv\n")
+#     for i in range (len(u_list)):
+#         new_file.writelines("{0}\t {1}\t {2}\t {3}\t {4}\n".format\
+#                             (u_list[i], fpbasic_ratio_list[i], fpimprv_ratio_list[i],\
+#                             npbasic_ratio_list[i], npimprv_ratio_list[i]))
+
+#         print("Utilization: {0},  fpbasic_ratio: {1}, fpimprv_ratio: {2}, npbasic_ratio: {3}, npimprv_ratio: {4}"\
+#               .format(u_list[i], fpbasic_ratio_list[i], fpimprv_ratio_list[i], npbasic_ratio_list[i], npimprv_ratio_list[i]))
+#         i += 1
+
+#     new_file.close()
 
 
 
