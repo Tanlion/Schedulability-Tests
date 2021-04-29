@@ -1,5 +1,5 @@
 ### What this is?
-Experiment on schedulability tests with Density test, Load test, and G-EPPF tests. 
+Experiment on schedulability tests with G-EPPF tests compare to Density test and Load test. 
 
 G-EPPF (global earliest-priority-point-first) scheduling include a basic bound and an improved bound for fully preemptive and non-preemptive cases separately. 
 
