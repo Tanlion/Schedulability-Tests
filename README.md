@@ -3,6 +3,8 @@ Experiment on schedulability tests with G-EPPF tests compare to Density test and
 
 G-EPPF (global earliest-priority-point-first) scheduling include a basic bound and an improved bound for fully preemptive and non-preemptive cases separately. 
 
+gurobi.lic is needed.
+
 ### System Characteristics
 | Property | Description |
 | ---------| ----------- |
