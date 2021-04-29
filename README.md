@@ -31,3 +31,4 @@ gurobi.lic is needed.
 ### How to run?
 Just run "writeFile.py" with you custom system parameters.
 Need to comment the tests you dont need, and their relative variables. 
+https://img.shields.io/badge/{python}-{3.7}-{green}.svg
