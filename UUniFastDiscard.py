@@ -154,8 +154,8 @@ if __name__ == "__main__":
     total u < ntasks
     """
     m = 16      # m equals to total util 4, 8, 16
-    nsets = 1000     # 500 1000,
-    ntasks = 100     # ntasks >= 2 * m : 30, 50, 80, 100
+    nsets = 1000    
+    ntasks = 100     
     start_time = time.process_time()
     write_to_file(m, nsets, ntasks)
     end_time = time.process_time()
