@@ -1,7 +1,5 @@
 """
 Implement Linear Programming optimizer Guribo
-
-
 """
 import gurobipy as gp
 import Task
@@ -84,8 +82,7 @@ def get_sets(filename):
 def lp_test1(task_set, m):
 
 	ntasks = len(task_set)
-	# task_set = Task.list_to_obj(task_set)
-	# try:
+
 
 	model = gp.Model('Basic-Bound-F-P-GEDF')
 	C = []
@@ -94,8 +91,6 @@ def lp_test1(task_set, m):
 	U = []
 	Y = model.addVars(ntasks, vtype=gp.GRB.CONTINUOUS, name = 'Y')
 	L = model.addVars(ntasks, vtype=gp.GRB.CONTINUOUS, name = 'L')
-	# maxobj = model.addVars(ntasks, vtype=gp.GRB.CONTINUOUS, name='maxobj')
-	# diff_ty = model.addVars(ntasks, vtype=gp.GRB.CONTINUOUS, name='diff_ty')
 
 	for i in range(ntasks):
 		C.append(task_set[i].wcet)
@@ -111,14 +106,11 @@ def lp_test1(task_set, m):
 	model.update()
 	model.setObjective(sum(L[i] for i in range(ntasks)), sense=gp.GRB.MINIMIZE)
 
-	# model.addConstrs(diff_ty[i] == T[i] - Y[i] for i in range(ntasks))
-	# model.addConstrs(maxobj[i] == gp.max_(0, diff_ty[i]) for i in range(ntasks))
-	# model.addConstrs(L[i] == (U[i] * maxobj[i]) for i in range(ntasks))
 	model.addConstrs(L[i] >= 0 for i in range(ntasks))
 	model.addConstrs(L[i] >= (T[i] - Y[i]) * U[i] for i in range(ntasks))
 	model.addConstrs(Y[i] + (sum(L[i] for i in range(ntasks)) + (m - 1) * C_max - C[i]) / m + C[i] <= D[i] for i in range(ntasks))
 
-	model.Params.LogToConsole = True		#显示求解过程
+	model.Params.LogToConsole = True		
 	model.optimize()
 	model.write('Basic-Bound-F-P-GEDF.lp')
 
@@ -134,18 +126,12 @@ def lp_test1(task_set, m):
 
 
 	elif model.status == gp.GRB.Status.INFEASIBLE:
-		# print('Optimization was stopped with status %d ' % model.status)
 		cnt += 1
 		print("No\n")
 
-	# print("Lpbb ratio: {}\n".format(cnt_y/cnt))
 	return model.status == gp.GRB.Status.OPTIMAL
 
-	# except gp.GurobiError as e:
-	# 	print('Error code ' + str(e.errno) + ": " + str(e))
-	#
-	# except AttributeError:
-	# 	print('Encountered an attribute error')
+
 
 def lp_test2(task_set, m):
 	ntasks = len(task_set)
@@ -157,8 +143,6 @@ def lp_test2(task_set, m):
 	U = []
 	Y = model.addVars(ntasks, vtype=gp.GRB.CONTINUOUS, name = 'Y')
 	L = model.addVars(ntasks, vtype=gp.GRB.CONTINUOUS, name = 'L')
-	# Lambda = model.addVar(lb=1, ub=m, vtype=gp.GRB.CONTINUOUS, name = 'Lambda')
-
 
 	for i in range(ntasks):
 		C.append(task_set[i].wcet)
@@ -176,11 +160,9 @@ def lp_test2(task_set, m):
 
 	model.addConstrs(L[i] >= 0 for i in range(ntasks))
 	model.addConstrs(L[i] >= (T[i] - Y[i]) * U[i] for i in range(ntasks))
-	# model.addConstr( U_sum <= Lambda)
-	# model.addConstr( Lambda <= U_sum + 1)
 	model.addConstrs((U_sum/m) * Y[i] + (sum(L[i] for i in range(ntasks))/m) + (U_sum- 1)/m * C_max + (m-1)/m * C[i] <= D[i] for i in range(ntasks))
 
-	model.Params.LogToConsole = True		#显示求解过程
+	model.Params.LogToConsole = True		
 	model.optimize()
 	model.write('Basic-Bound-F-P-GEDF.lp')
 
@@ -196,24 +178,12 @@ def lp_test2(task_set, m):
 
 
 	elif model.status == gp.GRB.Status.INFEASIBLE:
-		# print('Optimization was stopped with status %d ' % model.status)
 		cnt += 1
 		print("No\n")
 
 	return model.status == gp.GRB.Status.OPTIMAL
 
-if __name__ == "__main__":
-	m = 10
-	filename = "Task_data_10u_300_50_0.5step_3.0coe_10lcm.txt"
-	# get_sets(filename)
-	task_set = [(0.663632, 9.0, 11.0),
-				(0.351698, 2.0, 2.0),
-				(1.577367, 5.0, 6.0),
-				(0.295637, 2.0, 2.0),
-				(0.484059, 2.0, 2.0),
-				(0.270551, 6.0, 7.0)]
 
-	lp_test2(task_set, m)
 
 
 
