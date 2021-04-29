@@ -1,3 +1,6 @@
+### What this is?
+Experiment on schedulability tests with Density test, Load test, and G-EPPF tests. 
+G-EPPF (global earliest-priority-point-first) scheduling include a basic bound and an improved bound for fully preemptive and non-preemptive cases separately. 
 
 ### System Characteristics
 | Property | Description |
@@ -20,6 +23,6 @@
 | R_{i,j} | Response time, executing period R_{i,j} = f_{i,j} - r_{i,j} |
 | ∆_{i,j} |  Difference between finish time and absolute deadline: Delta_{i,j} = f_{i,j} - d_{i,j}  |
 | y_{i,j}   | Absolute priority point: y_{i,j} = r_{i,j} + Y_i  |
-| W | Competing work for T_{k,l} at t_y  |
-|   |   |
+
+
 
